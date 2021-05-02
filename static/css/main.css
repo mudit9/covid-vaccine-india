@@ -67,9 +67,7 @@ a {
 /* media queries */
 
 @media (max-width: 800px) {
-    body {
-        background: #f1f7dc;
-    }
+
     #container {
         margin: 0;
         width: 100%;
