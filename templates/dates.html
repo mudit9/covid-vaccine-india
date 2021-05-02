@@ -4,7 +4,11 @@
 
     <div class="container">
       <table class="table table-striped ">
+        {% if invalid %}
+        <h4> Invalid pincode. </h4>
+        {% else %}
 				<h4> Pincode - {{pincode}}, Date - {{date}} </h4>
+        {% endif %}
 				{% if rows %}
 				<thead>
     <tr>
