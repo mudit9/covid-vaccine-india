@@ -20,17 +20,18 @@ def getDates():
     pincode  = request.form['pincode']
     date = request.form['date']
     date = datetime.datetime.strptime(date, '%Y-%m-%d').strftime('%d/%m/%y')
-    print(date)
+    #print(date)
     response = requests.get("https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByPin?pincode="+str(pincode)+"&date="+date)
     #print('respone',response.text)
     s = json.loads(response.text)
+    print(s)
     #print(s['sessions'])
     df = pd.DataFrame(s['sessions'])
     rows = []
     for i,r in df.iterrows():
         #r.pop('slots')
         r['CenterName'] = r['name']
-        print(r)
+        #print(r)
         rows.append(r)
 
     #print(rows)
