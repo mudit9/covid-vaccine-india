@@ -1,0 +1,187 @@
+/* Base CSS */
+
+html {
+	font-family: 'Ubuntu', sans-serif;
+}
+
+.filtering {
+	margin-bottom: 54px;
+}
+a:focus {
+	outline: 0 solid
+}
+
+a {
+	display: inline-block
+}
+
+a:hover {
+	display: inline-block;
+	text-decoration: none;
+	color: inherit;
+}
+
+.flex {
+	display: flex;
+}
+
+.no-padding {
+	padding: 0;
+}
+
+img {
+	width: 100%;
+	height: auto;
+}
+
+.bg-img {
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+}
+
+.section-padding {
+	padding: 60px 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	margin: 0 0 15px;
+	font-weight: 700;
+}
+
+ul {
+	margin: 0;
+	padding: 0;
+	list-style: none
+}
+
+p {
+	font-size: 15px;
+	color: #a3a3a3;
+	line-height: 1.6;
+	word-spacing: 1px;
+	margin: 0;
+}
+
+body {
+	font-family: 'Noto Sans', sans-serif;
+	font-size: 14px;
+	line-height: 1.4;
+}
+
+a {
+	text-decoration: none;
+	color: #111;
+}
+
+.border_btn {}
+
+
+/*  Start Nav CSs */
+
+.navbar.navbar-expand-lg.nav_area.sticky {
+	transition: all .6s;
+}
+
+.navbar.navbar-expand-xl.nav_area.sticky.scroll-header {
+	background-color: #fff;
+	z-index: 999999;
+	box-shadow: 1px -5px 24px #776b6bcc;
+	padding: 17px 0px;
+}
+
+.navbar.navbar-expand-xl.nav_area.sticky.scroll-header .main_menu li a {
+	color: #000;
+	transition: .6s;
+	opacity: .7;
+}
+
+.navbar.navbar-expand-xl.nav_area.sticky.scroll-header .main_menu li:hover a {
+	color: #F24259;
+}
+
+.navbar.navbar-expand-xl.nav_area.sticky .logo-light {
+	display: inline-block;
+}
+
+.navbar.navbar-expand-xl.nav_area.sticky .logo-dark {
+	display: none;
+}
+
+.navbar.navbar-expand-xl.nav_area.sticky.scroll-header .logo-light {
+	display: none;
+}
+
+.navbar.navbar-expand-xl.nav_area.sticky.scroll-header .logo-dark {
+	display: inline-block;
+}
+
+.nav_area {
+	position: fixed;
+	left: 0;
+	right: 0;
+	z-index: 9999;
+	padding: 22px 0px;
+	transition: .6s;
+}
+
+.logo {
+	height: 41px;
+	padding: 7px 0px;
+}
+
+.logo a {}
+
+.logo-light {
+	font-size: 22px;
+	font-weight: 700;
+}
+
+.logo-light:hover {
+	text-decoration: none;
+	color: #111;
+}
+
+.logo-dark {
+	font-size: 22px;
+	font-weight: 700;
+	color: #111;
+}
+
+.logo-dark:hover {
+	text-decoration: none;
+	color: #111;
+}
+
+.logo a img {}
+
+.main_menu li a:hover {
+	color: #F24259;
+}
+
+.main_menu li a {
+	color: #111;
+	font-size: 14px;
+}
+
+.main_menu .blk_btn {
+	background-color: #F24259;
+	color: #fff;
+	margin-left: 13px;
+	border-radius: 50px;
+	padding: 10px 17px;
+	transition: all .6s;
+}
+
+.main_menu a {
+	text-decoration: none;
+}
+
+.navbar-nav.ml-auto.navbar-center.main_menu.onepage_nav li.active a {
+	color: #F24259;
+}

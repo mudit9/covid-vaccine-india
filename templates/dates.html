@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+    <div class="container">
+      <table class="table table-striped ">
+				<h4> Pincode - {{pincode}}, Date - {{date}} </h4>
+				{% if rows %}
+				<thead>
+    <tr>
+      <th scope="col">Center Name</th>
+      <th scope="col">District name</th>
+      <th scope="col">Vaccine</th>
+      <th scope="col">Min Age</th>
+    </tr>
+  </thead>
+{% for item in rows %}
+<tr>
+   <td>{{item.CenterName}}</td>
+   <td>{{item.district_name}}</td>
+   <td>{{item.vaccine}}</td>
+   <td>{{item.min_age_limit}}</td>
+</tr>
+{% endfor %}
+</table>
+
+{% else %}
+<p> No slots available. </p>
+{% endif %}
+
+    </div>
+
+		{% endblock %}
