@@ -37,8 +37,4 @@ def getDates():
     return render_template('dates.html', rows = rows,pincode = pincode,date = date)
 
 if __name__ == '__main__':
-    #app.run(debug=True)
-    #print(datetime.__version__)
-    print(requests.__version__)
-    print(json.__version__)
-    print(pd.__version__)
+    app.run(debug=True)
