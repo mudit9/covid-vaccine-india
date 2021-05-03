@@ -68,7 +68,7 @@ a {
 
 @media (max-width: 800px) {
     body {
-      font-size: 1em;
+      font-size: 1.2em;
       width:100%;
     }
     .logo{
