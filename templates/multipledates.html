@@ -3,14 +3,17 @@
 {% block body %}
 
     <div class="container">
-      <table class="table table-striped ">
+      <a href = "./multiplenextdates?date={{date}}&pincodes={{pincodes}}" <button style="float:right;margin-bottom:10px;" id="topButton" class="btn btn-outline-dark" type="button" name="button">Check Next Day</button></a>
+
+      {% for rows, invalid,pincode in vars %}
+
+      <table style="margin-top:20px"class="table table-striped ">
         {% if invalid %}
-        <h4> {{invalid}} </h4>
+        <h4> {{pincode}} - {{invalid}} </h4>
         {% else %}
 				<h4> Pincode - {{pincode}}, Date - {{date}} </h4>
         {% endif %}
 
-        <a href = "./nextdates?date={{date}}&pincode={{pincode}}" <button style="float:right;margin-bottom:10px;" id="topButton" class="btn btn-outline-dark" type="button" name="button">Check Next Day</button></a>
 
 				{% if rows %}
 				<thead>
@@ -41,5 +44,5 @@
 {% endif %}
 
     </div>
-
+{% endfor %}
 		{% endblock %}
