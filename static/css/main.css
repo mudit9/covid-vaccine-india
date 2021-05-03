@@ -67,10 +67,18 @@ a {
 /* media queries */
 
 @media (max-width: 800px) {
-
-    #container {
-        margin: 0;
+    body {
+      font-size: 1em;
+      width:100%;
+    }
+    .logo{
+      font-size:0.9em;
+    }
+    .navbar{
+      width:100%;
+    }
+    .container {
+        margin-left: 0.7em;
         width: 100%;
-        padding: 2em;
     }
 }
