@@ -28,6 +28,7 @@ def getNearbyPincodes():
          pincodes = []
          pincodes.append(int(pincode)-2)
          pincodes.append(int(pincode)-1)
+         pincodes.append(int(pincode))
          pincodes.append(int(pincode)+1)
          pincodes.append(int(pincode)+2)
          pincodes.append(int(pincode)+3)
@@ -51,7 +52,7 @@ def getNearbyPincodes():
                  #print(s['sessions'])
              else:
                  df = pd.DataFrame(s['sessions'])
-                 print(df.columns)
+                 #print(df.columns)
                  try:
                      df = df.sort_values(by=['min_age_limit'])
                  except Exception as e:
@@ -67,7 +68,7 @@ def getNearbyPincodes():
                  invalids.append(None)
                  multirows.append(rows)
          vars = zip(multirows,invalids,pincodes)
-         print("invalids",invalids)
+         #print("invalids",invalids)
          return render_template('multiplepincodes.html',vars = vars,pincodes=pincodes,date = date)
     except Exception as e:
         print(e)
@@ -305,7 +306,6 @@ def getDates():
 
                 #print(r)
                 rows.append(r)
-            rows[0]['min_age_limit'] = 18
     except Exception as e:
         print(e)
         return render_template('dates.html', rows = [],invalid="Something went wrong.")
@@ -315,4 +315,4 @@ def getDates():
     return render_template('dates.html', rows = rows,pincode = pincode,date = date)
 
 if __name__ == '__main__':
-    application.run()
+    application.run(debug=True)
