@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Covid Vaccine Checker</title>
+	<title>Covid Vaccine Slot Checker</title>
 	<link rel = "icon" href = "{{ url_for('static', filename='images/icon.jpeg') }}"
 			 type = "image/x-icon">
   <link href="https://fonts.googleapis.com/css?family=Droid+Serif|Source+Sans+Pro" rel="stylesheet">
@@ -20,7 +20,7 @@
 		<nav class="navbar navbar-expand-xl nav_area sticky" style="background:#fbfef9">
 			<div class="container">
 				<div class="logo">
-					<a href="/index.html" class="logo-light">Covid Vaccine Checker</a>
+					<a href="/index.html" class="logo-light">Covid Vaccine Slot Checker</a>
 				</div>
 				<div class="navbar-collapse " id="navbarNav">
 					<ul class="navbar-nav ml-auto navbar-center main_menu onepage_nav">
@@ -29,12 +29,29 @@
 							<li class="nav-item">
 								<a style="font-size: 0.5em;"class="nav-link" href="/about.html">About</a>
 					</ul>
-	
+
 				</div>
 			</div>
 		</nav>
 		{% block body %}
 	  {% endblock %}
 
+		<script>
+		
+		$(window).bind("pageshow", function() {
+		    var form = $('form');
+		    // let the browser natively reset defaults
+		    form[0].reset();
+		});
+					$(function(){
+		    $("tr").each(function(){
+		      var col_val = $(this).find("td:eq(3)").text();
+					console.log(col_val)
+		      if (col_val == "18"){
+		        $(this).addClass('selected');  //the selected class colors the row green//
+		      }
+		    });
+		});
+		</script>
 </body>
 </html>

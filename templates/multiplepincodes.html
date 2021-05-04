@@ -3,7 +3,7 @@
 {% block body %}
 
     <div class="container">
-      <a href = "./multiplenextdates?date={{date}}&pincodes={{pincodes}}" <button style="float:right;margin-bottom:10px;" id="topButton" class="btn btn-outline-dark" type="button" name="button">Check Next Day</button></a>
+      <a href = "./multipledatesnext?date={{date}}&pincode={{pincode}}" <button style="float:right;margin-bottom:10px;" id="topButton" class="btn btn-outline-dark" type="button" name="button">Check This Pin Code For Next 5 Day</button></a>
 
       {% for rows,invalid,pincode in vars %}
 

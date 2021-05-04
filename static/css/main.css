@@ -33,13 +33,15 @@ h2 {
 
 p{
       margin: 0px;
+      font-weight: 200;
+
 }
 li{
     font-size: 0.5em;
   }
 
 p, li {
-    font-size: 2em;
+    font-size: 1.5em;
 }
 
 p.credit {
@@ -64,6 +66,14 @@ a {
   margin-top:50px
 }
 /* media queries */
+
+table.table.table-striped tr.selected td {
+    background-color:#64e764;
+}
+.selected {
+background-color: #64e764;
+}
+
 
 @media (max-width: 800px) {
     body {

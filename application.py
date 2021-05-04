@@ -16,27 +16,30 @@ def index():
 def about():
     return render_template('about.html')
 
-@application.route('/multiplenextdates')
-def getSlotsMultipleNextDay():
+
+@application.route('/nearbypincodes')
+def getNearbyPincodes():
     try:
          #pincode = request.args.get('pincode')
          date = request.args.get('date')
          #vars = request.args.get('vars')
-         pincodes = request.args.getlist('pincodes')
-         pincodes = pincodes[0].replace("'", "").replace('[',"").replace(']',"")
-         pincodes = pincodes.split(',')
-         print(pincodes,len(pincodes))
+         pincode = request.args.get('pincode')
+         pincode = pincode.replace(']',"").replace(']',"").replace("'","")
+         pincodes = []
+         pincodes.append(int(pincode)-2)
+         pincodes.append(int(pincode)-1)
+         pincodes.append(int(pincode)+1)
+         pincodes.append(int(pincode)+2)
+         pincodes.append(int(pincode)+3)
 
-         date_time_obj = datetime.strptime(date, '%d/%m/%y')
-         tomorrow = date_time_obj + timedelta(days = 1)
-         date = datetime.strptime(str(tomorrow), '%Y-%m-%d %H:%M:%S').strftime('%d/%m/%y')
+
          multirows = []
          invalids = []
          for pincode_item in pincodes:
-             print(str(pincode_item))
+             #print(str(pincode_item))
              response = requests.get("https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByPin?pincode="+str(pincode_item).strip()+"&date="+date)
              #print('respone',response.text)
-             print(response.text)
+             #print(response.text)
 
              s = json.loads(response.text)
              #print(s.keys())
@@ -65,10 +68,127 @@ def getSlotsMultipleNextDay():
                  multirows.append(rows)
          vars = zip(multirows,invalids,pincodes)
          print("invalids",invalids)
+         return render_template('multiplepincodes.html',vars = vars,pincodes=pincodes,date = date)
+    except Exception as e:
+        print(e)
+        return render_template('multiplepincodes.html', rows = [],invalid="Something went wrong.")
+
+
+
+@application.route('/multipledatesnext')
+def getSlotsNextMultipleDates():
+    try:
+         #pincode = request.args.get('pincode')
+         date = request.args.get('date')
+         #vars = request.args.get('vars')
+         pincode = request.args.get('pincode')
+         pincode = pincode.replace(']',"").replace(']',"").replace("'","")
+
+
+         date_time_obj = datetime.strptime(date, '%d/%m/%y')
+         tomorrow = date_time_obj + timedelta(days = 1)
+         date = datetime.strptime(str(tomorrow), '%Y-%m-%d %H:%M:%S').strftime('%d/%m/%y')
+         multirows = []
+         invalids = []
+         dates = [date]
+         for i in range(0,5):
+             date_time_obj = datetime.strptime(date, '%d/%m/%y')
+             tomorrow = date_time_obj + timedelta(days = 1)
+             date = datetime.strptime(str(tomorrow), '%Y-%m-%d %H:%M:%S').strftime('%d/%m/%y')
+             dates.append(date)
+             response = requests.get("https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByPin?pincode="+str(pincode).strip()+"&date="+date)
+             #print('respone',response.text)
+             #print(response.text)
+
+             s = json.loads(response.text)
+             #print(s.keys())
+             if 'error' in s.keys():
+                 if s['error'] == 'Invalid Pincode':
+                     multirows.append([])
+                     invalids.append("Invalid Pincode")
+                     #return render_template('dates.html', rows = [],invalid="Invalid Pincode",pincode = pincode,date = date)
+                 #print(s['sessions'])
+             else:
+                 df = pd.DataFrame(s['sessions'])
+                 #print(df.columns)
+                 try:
+                     df = df.sort_values(by=['min_age_limit'])
+                 except Exception as e:
+                     print("no min age limit")
+                 rows = []
+                 for i,r in df.iterrows():
+                     Slots = ','.join(r['slots'])
+
+                     r['CenterName'] = r['name']
+                     r['Slots'] = Slots
+                     #print(r)
+                     rows.append(r)
+                 invalids.append(None)
+                 multirows.append(rows)
+         vars = zip(multirows,invalids,dates)
+         #print("invalids",invalids)
+         return render_template('multiplenextdates.html',vars = vars,pincode=pincode,dates = dates, lastdate = dates[-1])
+    except Exception as e:
+        print(e)
+        return render_template('multiplenextdates.html', rows = [],invalid="Something went wrong.")
+
+
+
+
+
+@application.route('/multiplenextdates')
+def getSlotsMultipleNextDay():
+    try:
+         #pincode = request.args.get('pincode')
+         date = request.args.get('date')
+         #vars = request.args.get('vars')
+         pincodes = request.args.getlist('pincodes')
+         pincodes = pincodes[0].replace("'", "").replace('[',"").replace(']',"")
+         pincodes = pincodes.split(',')
+         #print(pincodes,len(pincodes))
+
+         date_time_obj = datetime.strptime(date, '%d/%m/%y')
+         tomorrow = date_time_obj + timedelta(days = 1)
+         date = datetime.strptime(str(tomorrow), '%Y-%m-%d %H:%M:%S').strftime('%d/%m/%y')
+         multirows = []
+         invalids = []
+         for pincode_item in pincodes:
+            # print(str(pincode_item))
+             response = requests.get("https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByPin?pincode="+str(pincode_item).strip()+"&date="+date)
+             #print('respone',response.text)
+             #print(response.text)
+
+             s = json.loads(response.text)
+             #print(s.keys())
+             if 'error' in s.keys():
+                 if s['error'] == 'Invalid Pincode':
+                     multirows.append([])
+                     invalids.append("Invalid Pincode")
+                     #return render_template('dates.html', rows = [],invalid="Invalid Pincode",pincode = pincode,date = date)
+                 #print(s['sessions'])
+             else:
+                 df = pd.DataFrame(s['sessions'])
+                 #print(df.columns)
+                 try:
+                     df = df.sort_values(by=['min_age_limit'])
+                 except Exception as e:
+                     print("no min age limit")
+                 rows = []
+                 for i,r in df.iterrows():
+                     Slots = ','.join(r['slots'])
+
+                     r['CenterName'] = r['name']
+                     r['Slots'] = Slots
+                     #print(r)
+                     rows.append(r)
+                 invalids.append(None)
+                 multirows.append(rows)
+         vars = zip(multirows,invalids,pincodes)
+         #print("invalids",invalids)
          return render_template('multipledates.html',vars = vars,pincodes=pincodes,date = date)
     except Exception as e:
         print(e)
-        return render_template('multipledates.html', rows = [],invalid="Something went wrong.",pincode = pincode,date = date)
+        return render_template('multipledates.html', rows = [],invalid="Something went wrong.")
 
 
 @application.route('/nextdates')
@@ -81,7 +201,7 @@ def getSlotsNextDay():
          date = datetime.strptime(str(tomorrow), '%Y-%m-%d %H:%M:%S').strftime('%d/%m/%y')
 
          #date = datetime.datetime.strptime(date, '%Y-%m-%d').strftime('%d/%m/%y')
-         response = requests.get("https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByPin?pincode="+str(pincode)+"&date="+str(date))
+         response = requests.get("https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByPin?pincode="+str(pincode).strip()+"&date="+str(date))
          #print('respone',response.text)
          #print(response.text)
 
@@ -107,7 +227,7 @@ def getSlotsNextDay():
                  rows.append(r)
     except Exception as e:
         print(e)
-        return render_template('dates.html', rows = [],invalid="Something went wrong.",pincode = pincode,date = date)
+        return render_template('dates.html', rows = [],invalid="Something went wrong.")
         #print('something went wrong.')
 
         #print(rows)
@@ -125,10 +245,10 @@ def getDates():
                 multirows = []
                 invalids = []
                 for pincode_item in pincodes:
-                    print(str(pincode_item))
-                    response = requests.get("https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByPin?pincode="+str(pincode_item)+"&date="+date)
+                    #print(str(pincode_item))
+                    response = requests.get("https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByPin?pincode="+str(pincode_item).strip()+"&date="+date)
                     #print('respone',response.text)
-                    print(response.text)
+                    #print(response.text)
 
                     s = json.loads(response.text)
                     #print(s.keys())
@@ -140,7 +260,7 @@ def getDates():
                         #print(s['sessions'])
                     else:
                         df = pd.DataFrame(s['sessions'])
-                        print(df.columns)
+                        #print(df.columns)
                         try:
                             df = df.sort_values(by=['min_age_limit'])
                         except Exception as e:
@@ -156,12 +276,12 @@ def getDates():
                         invalids.append(None)
                         multirows.append(rows)
                 vars = zip(multirows, invalids,pincodes)
-                print("invalids",invalids)
+                #print("invalids",invalids)
                 return render_template('multipledates.html',vars = vars,pincodes = pincodes,date = date)
 
 
 
-        response = requests.get("https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByPin?pincode="+str(pincode)+"&date="+date)
+        response = requests.get("https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByPin?pincode="+str(pincode).strip()+"&date="+date)
         #print('respone',response.text)
         #print(response.text)
 
@@ -180,14 +300,14 @@ def getDates():
             rows = []
             for i,r in df.iterrows():
                 Slots = ','.join(r['slots'])
-
                 r['CenterName'] = r['name']
                 r['Slots'] = Slots
+
                 #print(r)
                 rows.append(r)
     except Exception as e:
         print(e)
-        return render_template('dates.html', rows = [],invalid="Something went wrong.",pincode = pincode,date = date)
+        return render_template('dates.html', rows = [],invalid="Something went wrong.")
 
     #print(rows)
     return render_template('dates.html', rows = rows,pincode = pincode,date = date)

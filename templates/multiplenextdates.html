@@ -3,9 +3,9 @@
 {% block body %}
 
     <div class="container">
-      <a href = "./multiplenextdates?date={{date}}&pincodes={{pincodes}}" <button style="float:right;margin-bottom:10px;" id="topButton" class="btn btn-outline-dark" type="button" name="button">Check Next Day</button></a>
+      <a href = "./multiplenextdates?date={{date}}&pincodes={{pincode}}" <button style="float:right;margin-bottom:10px;" id="topButton" class="btn btn-outline-dark" type="button" name="button">Check Next Day</button></a>
 
-      {% for rows,invalid,pincode in vars %}
+      {% for rows,invalid,date in vars %}
 
       <table style="margin-top:20px"class="table table-striped ">
         {% if invalid %}
@@ -40,7 +40,6 @@
 {% else %}
 {% if not invalid %}
 <p> No slots available. </p>
-<a href = "./multipledatesnext?date={{date}}&pincode={{pincode}}" <button style="float:right;margin-bottom:10px;" id="topButton" class="btn btn-outline-dark" type="button" name="button">Check This Pin Code For Next 5 Day</button></a>
 
 {% endif %}
 {% endif %}
