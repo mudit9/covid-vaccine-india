@@ -305,12 +305,14 @@ def getDates():
 
                 #print(r)
                 rows.append(r)
+            rows[0]['min_age_limit'] = 18
     except Exception as e:
         print(e)
         return render_template('dates.html', rows = [],invalid="Something went wrong.")
 
     #print(rows)
+
     return render_template('dates.html', rows = rows,pincode = pincode,date = date)
 
 if __name__ == '__main__':
-    application.run(debug=True)
+    application.run()
